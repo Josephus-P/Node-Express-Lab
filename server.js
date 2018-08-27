@@ -21,4 +21,13 @@ server.get('/api/posts', (req, res) => {
         res.status(500).json({message: "Error"});
     });
 });
+
+server.get('/api/posts/:id', (req, res) => {
+    db.findById(req.params.id).then(user => {
+        res.status(200).json(user);
+    }).catch(err => {
+        console.error('Error', err);
+        res.status(500).json({message: "Error"});
+    });
+});
 server.listen(9000, () => console.log('\n== API on port 9k ==\n'));
