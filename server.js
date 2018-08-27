@@ -13,6 +13,19 @@ server.get('/', (req, res) => {
     res.send('Hello CS12');
 });
 
+server.post('/api/posts', (req, res) => {
+    const { title, contents} = req.body;
+    db.insert({
+        title,
+        contents
+    }).then(response => {
+        res.status(200).json(response);
+    }).catch(err => {
+        console.error('Error', err);
+        res.status(500).json({message: "Error"});
+    });
+});
+
 server.get('/api/posts', (req, res) => {
     db.find().then(posts => {
         res.status(200).json(posts);
@@ -23,8 +36,8 @@ server.get('/api/posts', (req, res) => {
 });
 
 server.get('/api/posts/:id', (req, res) => {
-    db.findById(req.params.id).then(user => {
-        res.status(200).json(user);
+    db.findById(req.params.id).then(post => {
+        res.status(200).json(post);
     }).catch(err => {
         console.error('Error', err);
         res.status(500).json({message: "Error"});
